@@ -1,0 +1,22 @@
+{
+  "name": "redux-from-scratch",
+  "version": "1.0.0",
+  "description": "Redux From Scratch",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open"
+  },
+  "keywords": [],
+  "author": "Rohan Sachdeva",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "redux": "^4.0.5"
+  }
+}
