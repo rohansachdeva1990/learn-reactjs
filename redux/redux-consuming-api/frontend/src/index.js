@@ -7,17 +7,33 @@ import {
   getUnresolvedBugs,
   getBugsByUser,
   loadBugs,
+  addBug,
+  resolveBug,
+  assignBugToUser,
 } from './store/bugs';
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 
 const store = configureStore();
 
+// store.dispatch(loadBugs());
+
+// setTimeout(() => {
+//   store.dispatch(loadBugs);
+// }, 2000);
+
+//
+//store.dispatch(addBug({ description: 'a new bug' }));
+
 store.dispatch(loadBugs());
+// setTimeout(() => {
+//   store.dispatch(resolveBug(1));
+// }, 2000);
 
 setTimeout(() => {
-  store.dispatch(loadBugs);
+  store.dispatch(assignBugToUser(1, 4));
 }, 2000);
+
 /*
 // Without action creator
 store.dispatch({
