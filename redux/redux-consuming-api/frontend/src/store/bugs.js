@@ -49,7 +49,7 @@ const slice = createSlice({
   },
 });
 
-export const {
+const {
   bugAdded,
   bugRemoved,
   bugResolved,
@@ -126,54 +126,3 @@ export const assignBugToUser = (bugId, userId) =>
     data: { userId },
     onSuccess: bugAssignedToUser.type,
   });
-
-// () => {}
-/*
-export const loadBugs = () =>
-  apiCallBegan({
-    url,
-    onStart: bugsRequested.type,
-    onSuccess: bugsReceived.type, // We need to specify the end reducer slice action
-    onError: bugRequestFailed.type,
-  });
-*/
-// export const getUnresolvedBugs = createSelector(
-//   state => state.entities.bugs,
-//   state => state.entities.projects,
-//   (bugs, projects) => bugs.filter(bug => !bug.resolved) // If not changed then return from the cache
-// );
-//console.log(slice);
-
-// Action Creators
-//export const bugAdded = createAction('bugAdded');
-//export const bugRemoved = createAction('bugRemoved');
-//export const bugResolved = createAction('bugResolved');
-
-// Reducer
-//let lastId = 0;
-
-// initial state
-// Create reducer can have mutating code, so we don't
-// need to handle immutability, redux dev tools will do that for us (using immer  )
-// export default createReducer([], {
-//   // key: value
-//   // actions: functions (event => event handler)
-//   [bugAdded.type]: (bugs, action) => {
-//     bugs.push({
-//       id: ++lastId,
-//       description: action.payload.description,
-//       resolved: false,
-//     });
-//   },
-
-//   // below in square is the computed property syntax
-//   [bugResolved.type]: (bugs, action) => {
-//     const index = bugs.findIndex(bug => bug.id === action.payload.id);
-//     bugs[index].resolved = true;
-//   },
-
-//   [bugRemoved.type]: (bugs, action) => {
-//     const index = bugs.findIndex(bug => bug.id === action.payload.id);
-//     bugs.splice(index, 1);
-//   },
-// });
