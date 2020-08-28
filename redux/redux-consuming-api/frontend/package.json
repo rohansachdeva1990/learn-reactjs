@@ -1,0 +1,26 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Consuming API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development --open"
+  },
+  "keywords": [],
+  "author": "Rohan Sachdeva",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.2.5",
+    "axios": "^0.20.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "reselect": "^4.0.0"
+  }
+}

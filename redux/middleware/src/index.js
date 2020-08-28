@@ -60,6 +60,7 @@ const store = configureStore();
 //   store.dispatch({ type: 'bugsReceived', bugs: [1, 2, 3] });
 // });
 
+// We can pass the dispatch and get state 
 store.dispatch((dispatch, getState) => {
   // Call an API (async)
   // When the promise is resolved,

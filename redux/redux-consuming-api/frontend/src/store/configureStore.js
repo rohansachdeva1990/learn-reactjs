@@ -2,21 +2,18 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import reducer from './reducer';
 import logger from './middleware/logger';
 import toast from './middleware/toast';
+import api from './middleware/api';
 
 // This is a root reducer
 export default function () {
   return configureStore({
     reducer,
-    // middleware: [logger],
-    // middleware: [logger('console')],
-    // Here we are overriding all default middleware, using getDefaultMiddleware(), we get all the existing ones
-    // middleware provides S (Store), N (next action), A (action) to every middleware by default 
     middleware: [
       ...getDefaultMiddleware(),
       logger({ destination: 'console' }),
       toast,
+      api,
     ],
-    // Passing object to middleware
   });
 }
 
