@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { apiCallBegan } from './api';
 
 let lastId = 0;
 
 const slice = createSlice({
   name: 'bugs',
-  initialState: [],
+  initialState: {
+    list: [],
+    loading: false,
+    lastFetch: null, // Useful when caching
+  },
   reducers: {
     bugAdded: (bugs, action) => {
-      bugs.push({
+      bugs.list.push({
         id: ++lastId,
         description: action.payload.description,
         resolved: false,
@@ -16,19 +21,23 @@ const slice = createSlice({
     },
 
     bugResolved: (bugs, action) => {
-      const index = bugs.findIndex(bug => bug.id === action.payload.id);
-      bugs[index].resolved = true;
+      const index = bugs.list.findIndex(bug => bug.id === action.payload.id);
+      bugs.list[index].resolved = true;
     },
 
     bugRemoved: (bugs, action) => {
-      const index = bugs.findIndex(bug => bug.id === action.payload.id);
-      bugs.splice(index, 1);
+      const index = bugs.list.findIndex(bug => bug.id === action.payload.id);
+      bugs.list.splice(index, 1);
     },
 
     bugAssignedToUser: (bugs, action) => {
       const { bugId, userId } = action.payload;
-      const index = bugs.findIndex(bug => bug.id === bugId);
-      bugs[index].userId = userId;
+      const index = bugs.list.findIndex(bug => bug.id === bugId);
+      bugs.list[index].userId = userId;
+    },
+
+    bugsReceived: (bugs, action) => {
+      bugs.list = action.payload;
     },
   },
 });
@@ -38,6 +47,7 @@ export const {
   bugRemoved,
   bugResolved,
   bugAssignedToUser,
+  bugsReceived,
 } = slice.actions;
 export default slice.reducer;
 
@@ -61,6 +71,15 @@ export const getBugsByUser = userId =>
         .bugs /* Output of this function will be input of the result function, next param */,
     bugs => bugs.filter(bug => bug.userId === userId)
   );
+
+// An action creator
+const url = '/bugs';
+
+export const loadBugs = () =>
+  apiCallBegan({
+    url,
+    onSuccess: bugsReceived.type, // We need to specify the end reducer slice action
+  });
 
 // export const getUnresolvedBugs = createSelector(
 //   state => state.entities.bugs,
