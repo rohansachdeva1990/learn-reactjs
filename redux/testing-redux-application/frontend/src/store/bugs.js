@@ -69,7 +69,8 @@ export default slice.reducer;
 // bugs => get unresolved from the cache
 export const getUnresolvedBugs = createSelector(
   state => state.entities.bugs,
-  bugs => bugs.filter(bug => !bug.resolved) // If not changed then return from the cache
+  state => state.entities.projects,
+  (bugs, projects) => bugs.list.filter(bug => !bug.resolved) // If not changed then return from the cache
 );
 
 // We finally return a selector,
@@ -78,7 +79,7 @@ export const getBugsByUser = userId =>
     state =>
       state.entities
         .bugs /* Output of this function will be input of the result function, next param */,
-    bugs => bugs.filter(bug => bug.userId === userId)
+    bugs => bugs.list.filter(bug => bug.userId === userId)
   );
 
 // An action creator
@@ -93,7 +94,7 @@ export const loadBugs = () => (dispatch, getState) => {
     return;
   }
 
-  dispatch(
+  return dispatch(
     apiCallBegan({
       url,
       onStart: bugsRequested.type,
