@@ -1,7 +1,43 @@
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import { addBug } from '../bugs';
 import configureStore from '../configureStore';
 
-// Social test
+// AAA -> Arrange Act Assert
+
+describe('bugsSlice', () => {
+  let fakeAxios;
+  let store;
+
+  beforeEach(() => {
+    fakeAxios = new MockAdapter(axios);
+    store = configureStore();
+  });
+
+  const bugsSlice = () => store.getState().entities.bugs;
+
+  it('should add the bug to the store if it is saved to the server', async () => {
+    const bug = { description: 'a' };
+    const savedBug = { id: 1, ...bug };
+    fakeAxios.onPost('/bugs').reply(200, savedBug);
+
+    await store.dispatch(addBug(bug));
+
+    expect(bugsSlice().list).toContainEqual(savedBug);
+  });
+
+  it('should not add the bug to the store if it is not saved to the server', async () => {
+    const bug = { description: 'a' };
+    fakeAxios.onPost('/bugs').reply(500);
+
+    await store.dispatch(addBug(bug));
+
+    expect(bugsSlice().list).toHaveLength(0);
+  });
+});
+
+/*
+// Social test: Not dependent on the implementation
 describe('bugsSlice', () => {
   it('should handle the addBug action', async () => {
     const store = configureStore();
@@ -10,7 +46,7 @@ describe('bugsSlice', () => {
     expect(store.getState().entities.bugs.list).toHaveLength(1);
   });
 });
-
+*/
 // Lonely Test
 /*
 import { addBug, bugAdded } from '../bugs';
