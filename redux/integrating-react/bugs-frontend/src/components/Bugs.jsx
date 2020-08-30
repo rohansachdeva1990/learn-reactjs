@@ -1,38 +1,39 @@
 import React, { Component } from 'react';
-import StoreContext from '../contexts/storeContext';
+import { connect } from 'react-redux';
 import { loadBugs } from '../store/bugs';
 
-export default class Bugs extends Component {
-  static contextType = StoreContext;
-
-  state = {
-    bugs: [],
-  };
-
+class Bugs extends Component {
   componentDidMount() {
-    const store = this.context;
-
-    this.unsubscribe = store.subscribe(() => {
-      const bugsInStore = store.getState().entities.bugs.list;
-      if (this.state.bugs !== bugsInStore) {
-        this.setState({ bugs: bugsInStore });
-      }
-    });
-
-    store.dispatch(loadBugs());
+    this.props.loadBugs();
   }
 
   render() {
     return (
       <ul>
-        {this.state.bugs.map(bug => (
+        {this.props.bugs.map(bug => (
           <li key={bug.id}> {bug.description}</li>
         ))}
       </ul>
     );
   }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
 }
+
+// connect (what part of store component is interested in, disptatching action )
+// bugs: state.entities.bugs.list
+
+// Here we are returining an object
+// So this function, takes the state of the store and returns the properties we are interested in.
+const mapStateToProps = state => ({
+  bugs: state.entities.bugs.list,
+});
+
+const mapDispatchToProps = dispatch => ({
+  loadBugs: () => dispatch(loadBugs()),
+});
+
+// Container
+//   Presentation (Bugs)
+
+// This connect is a higher order function
+// We wraps our Bug component with container component, that is responsible to deal with react redux
+export default connect(mapStateToProps, mapDispatchToProps)(Bugs);
