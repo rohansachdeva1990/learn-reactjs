@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadBugs } from '../store/bugs';
+import { loadBugs, resolveBug, getUnresolvedBugs } from '../store/bugs';
 
 class Bugs extends Component {
   componentDidMount() {
@@ -11,7 +11,12 @@ class Bugs extends Component {
     return (
       <ul>
         {this.props.bugs.map(bug => (
-          <li key={bug.id}> {bug.description}</li>
+          <li key={bug.id}>
+            {bug.description}
+            <button onClick={() => this.props.resolveBug(bug.id)}>
+              Resolve
+            </button>
+          </li>
         ))}
       </ul>
     );
@@ -24,11 +29,13 @@ class Bugs extends Component {
 // Here we are returining an object
 // So this function, takes the state of the store and returns the properties we are interested in.
 const mapStateToProps = state => ({
-  bugs: state.entities.bugs.list,
+  // bugs: state.entities.bugs.list,
+  bugs: getUnresolvedBugs(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   loadBugs: () => dispatch(loadBugs()),
+  resolveBug: id => dispatch(resolveBug(id)),
 });
 
 // Container
