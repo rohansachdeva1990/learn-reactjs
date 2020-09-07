@@ -1,7 +1,7 @@
 # Learn ReactJS
 
-- [Components](/components)
-- [Composing Components](/composing-components)
+- [Components](./components)
+- [Composing Components](./composing-components)
 - [Pagination, Filtering and Sorting](/pagination-filtering-sorting)
 - [Routing](/routing)
 - [Forms](/forms)
@@ -55,3 +55,71 @@
 
 - Passing event arguments
   - Instead of passing method reference, we pass an arrow function with defined arguments
+
+## Composing Components
+
+- Pass Data
+
+  - Pass in additional attributes to a component to initialize it with custom configuration
+  - Every react component has a property called 'props'.
+    - All attributes of a component except 'key' will be a part of props.
+    - key is a special attribute to uniquely identify the component
+  - Passing Children
+
+    - A special prop that we use to pass something between opening and closing tag of an element
+
+    ```javascript
+      <AComponent>
+        {//We want to pass something extra within this component}
+      </AComponent>
+
+      render() {
+          return (
+            <div>
+              {this.state.counters.map(counter => (
+                <Counter key={counter.id} value={counter.value}>
+                  <h4>Counter #{counter.id}</h4>
+                </Counter>
+              ))}
+            </div>
+        );
+      }
+
+      // In component
+      render() {
+        return (
+          <div>
+            {this.props.children}
+          </div>
+        );
+     }
+    ```
+
+  - What is the difference between props and state?
+
+    - props
+      - includes data that we give to a component
+      - props is readonly; we cannot change the props value
+    - state
+      - includes data that is local or private to that components
+      - state is invisible to other components
+    - If we need to change the value given as props, then we need to store it in the state and then manipulate it
+
+- Raise and Handle Events
+
+  > The component that ows a piece of the state, should be the one modifying it.
+
+  - For eg, Table having N rows. We add a delete button on each row. Now for deleting a row we provide a prop onDelete for each row and that onDelete callback is delegated to the owning entity which handles the state update.
+  - Updating the state
+    - In react, we do not update the state directly.
+    - we cannot pass 'key' property to a component.
+  - Single source of truth
+    - when our component state is dependent on props, then we should remove that local state and give control to the parent component
+
+- Multiple Components in Sync
+
+  - Lifting state to higher components when we need to share properties amongs sibling components
+
+- Functional Components
+
+- Lifecycle Hooks
