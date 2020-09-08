@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Counters from './components/counters';
-import Navbar from './components/navbar';
+import NavBar from './components/navbar';
 
 class App extends Component {
   state = {
@@ -12,6 +12,15 @@ class App extends Component {
       { id: 4, value: 0 },
     ],
   };
+
+  constructor(props) {
+    super(props);
+    console.log('App - Constructor');
+  }
+
+  componentDidMount() {
+    console.log('App - Mounted');
+  }
 
   handleDelete = counterId => {
     const counters = this.state.counters.filter(c => c.id !== counterId);
@@ -31,7 +40,7 @@ class App extends Component {
     // Cloning state array
     const counters = [...this.state.counters];
     const index = counters.indexOf(counter);
-    console.log(index);
+    // console.log(index);
 
     // Cloning counter, as we don't want to modify the state directly
     counters[index] = { ...counter };
@@ -39,10 +48,22 @@ class App extends Component {
     this.setState({ counters });
   };
 
+  handleDecrement = counter => {
+    // Cloning the state array
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+
+    // Cloning the counter
+    counters[index] = { ...counter };
+    counters[index].value--;
+    this.setState({ counters });
+  };
+
   render() {
+    console.log('App - Rendered');
     return (
       <React.Fragment>
-        <Navbar
+        <NavBar
           totalCounters={this.state.counters.filter(c => c.value > 0).length}
         />
         <main className='container'>
@@ -50,6 +71,7 @@ class App extends Component {
             counters={this.state.counters}
             onReset={this.handleReset}
             onIncrement={this.handleIncrement}
+            onDecrement={this.handleDecrement}
             onDelete={this.handleDelete}
           />
         </main>

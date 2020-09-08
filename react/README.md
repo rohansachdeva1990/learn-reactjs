@@ -122,4 +122,45 @@
 
 - Functional Components
 
+  - These are dumb or presentational components
+  - We just pass necessary props to them and get transport input from them to upper layers in the component tree
+
 - Lifecycle Hooks
+
+  - There are mainly 3 phases in a React components life
+
+    - Mounting
+
+      - constructor;
+
+        - set the state based on the props received from the outside
+        - props should be all set in the super class constructor
+        - Called once
+
+      - render
+
+        - When a component is rendered all its children are rendered recursively
+
+      - componentDidMount
+        - Here the component has already been mounted
+        - Called after the component is rendered in the DOM
+        - Perfect place to make ajax call to get data from the server
+
+    - Updating
+
+      - render
+
+        - Happens when state or props of a component changes. So whenever we call a this.setState(...), the owning componet render is called and all it children render is also called recursively.
+        - Rendering entire component tree does not mean entire DOM is updated.
+        - When update the component a react element is created/updated that is updating the virtual DOM, react will look at the virtual DOM and compare it with old virtual DOM.
+        - Then react will only change the elements that were actually updated in the real DOM
+
+      - componentDidUpdate
+        - Used for optimization;
+        - compare prev props/state with current and if different then do something which takes time
+
+    - Unmounting
+      - componentWillUnmount
+        - Called when component is actualy removed from the virtual DOM
+
+> this.setState() cannot be called in the constructor
