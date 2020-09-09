@@ -163,4 +163,12 @@
       - componentWillUnmount
         - Called when component is actualy removed from the virtual DOM
 
-> this.setState() cannot be called in the constructor
+    > this.setState() cannot be called in the constructor
+
+## Pagination, Filtering & Sorting
+
+- Pagination
+
+- Filtering
+
+- Sorting
