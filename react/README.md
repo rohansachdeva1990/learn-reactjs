@@ -168,7 +168,7 @@
 ## Pagination, Filtering & Sorting
 
 - Pagination
-
+  - Lodash for range functionality
 - Filtering
-
+  - Using defaultProps, when we don't want to set certain component attributes
 - Sorting
