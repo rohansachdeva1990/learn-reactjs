@@ -172,3 +172,5 @@
 - Filtering
   - Using defaultProps, when we don't want to set certain component attributes
 - Sorting
+  - Use lodash for sorting
+  - Raising an event from children to parent
