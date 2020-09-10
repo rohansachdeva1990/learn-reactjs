@@ -16,7 +16,9 @@ const ListGroup = props => {
           onClick={() => onItemSelect(item)}
           key={item[valueProperty]}
           className={
-            item === selectedItem ? 'list-group-item active' : 'list-group-item'
+            item === selectedItem
+              ? 'list-group-item active clickable'
+              : 'list-group-item clickable'
           }>
           {item[textProperty]}
         </li>
@@ -25,7 +27,7 @@ const ListGroup = props => {
   );
 };
 
-// When we need to setr
+// When we need to a default properties
 ListGroup.defaultProps = {
   textProperty: 'name',
   valueProperty: '_id',
