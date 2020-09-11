@@ -174,3 +174,12 @@
 - Sorting
   - Use lodash for sorting
   - Raising an event from children to parent
+
+## Routing
+
+- Route Parameters
+
+- Query String
+- Redirect
+- Not Found (404) Pages
+- Nested Routing
