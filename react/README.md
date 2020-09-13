@@ -177,9 +177,73 @@
 
 ## Routing
 
-- Route Parameters
-
-- Query String
 - Redirect
 - Not Found (404) Pages
 - Nested Routing
+
+- Browser Router, passes history object from the browser to the react components.
+
+  - Can be done, by wrapping the App in the BrowserReactor
+
+  ```javascript
+  <div className='content'>
+    <Route path='/products' component={Products} />
+    <Route path='/posts' component={Posts} />
+    <Route path='/admin' component={Dashboard} />
+    <Route path='/' exact component={Home} />
+  </div>
+  ```
+
+  - To switch between path
+    - Use 'exact'
+    - Use 'Switch'
+      - Always order to your route from most specific to most generic
+  - Link
+    - We should avoid reload in single page apps (SPA)
+    - check Navbar
+
+- Route
+  - https://reactrouter.com/web/example/basic
+  - Route component passes 3 additonal props to a encapsulated component
+    - history
+    - location
+    - match
+  - Passing Props
+    - Besides of passing props from Route, if we need to pass additional props, we use render function
+    ```javascript
+    // the props from route using
+    <div className='content'>
+      <Switch>
+        <Route
+          path='/products'
+          render={props => <Products sortBy='newest' {...props} />}
+        />
+        <Route path='/posts' component={Posts} />
+        <Route path='/admin' component={Dashboard} />
+        <Route path='/' exact component={Home} />
+      </Switch>
+    </div>
+    ```
+  - Route Parameters
+    - When we want to pass parameter in the URL
+    - Optional
+      ```javascript
+      <Route path='/posts/:year?/:month?' component={Posts} />
+      ```
+      - Should be avoid generally
+  - Query String
+    - Optional params should be part of query string
+    - check posts.jsx
+  - Redirect
+    - When we want to redirect a user to different URL
+  - Programmatic Navigation
+    - we use 'history' to navigate through pages
+    ```javascript
+    // If we want to go to previous page
+    this.props.history.replace('/products');
+    // OR if we don't want to go previous page
+    // Normally, used in login page
+    // this.props.history.replace('/products');
+    ```
+  - Nested Routing
+    - check admin
