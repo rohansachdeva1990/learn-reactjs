@@ -247,3 +247,30 @@
     ```
   - Nested Routing
     - check admin
+
+## Forms
+
+- To get value from DOM, use React.createRef() and add ref to the input element
+  - and to use the value, this.yourRef.current.value
+- Always try to minimize access to DOM
+
+  - Only, when
+    - using third part
+    - Setting focus on input fileds
+
+  ```javascript
+      username = React.createRef();
+
+  componentDidMount() {
+    this.username.current.focus();
+  }
+
+  // To avoid the page to reload on submission
+  handleSubmit = e => {
+    e.preventDefault();
+
+    // Call the server, save the changes and redirect to app
+    const username = this.username.current.value;
+    console.log('submitted: ', username);
+  };
+  ```
