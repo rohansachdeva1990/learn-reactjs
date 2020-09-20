@@ -274,3 +274,8 @@
     console.log('submitted: ', username);
   };
   ```
+
+- Controlled vs uncontrolled elements
+- Always initialize your form properties state to empty() or some values from the server
+
+- Validation rule library - joi!

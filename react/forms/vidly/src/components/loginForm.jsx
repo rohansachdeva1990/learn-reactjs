@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from './common/input';
+import Joi from 'joi-browser';
 
 class LoginFrom extends Component {
   username = React.createRef();
@@ -12,23 +13,35 @@ class LoginFrom extends Component {
     errors: {},
   };
 
+  schema = {
+    username: Joi.string()
+      .required()
+      .label('Username'),
+    password: Joi.string()
+      .required()
+      .label('Password'),
+  };
+
   //   componentDidMount() {
   //     this.username.current.focus();
   //   }
 
   validate = () => {
+    const options = {
+      abortEarly: false,
+    };
+    const { error } = Joi.validate(this.state.account, this.schema, options);
+
+    if (!error) return null;
+
     const errors = {};
-    const { account } = this.state;
-
-    if (account.username.trim() === '') {
-      errors.username = 'Username is required.';
+    for (let item of error.details) {
+      console.log(item.message);
+      errors[item.path[0]] = item.message;
     }
 
-    if (account.password.trim() === '') {
-      errors.password = 'Password is required.';
-    }
-
-    return Object.keys(errors).length === 0 ? null : errors;
+    console.log(errors);
+    return errors;
   };
 
   // To avoid the page to reload on submission
@@ -36,6 +49,7 @@ class LoginFrom extends Component {
     e.preventDefault();
 
     const errors = this.validate();
+    console.log(errors);
     this.setState({ errors: errors || {} });
 
     if (errors) return;
@@ -45,15 +59,14 @@ class LoginFrom extends Component {
   };
 
   validateProperty = ({ name, value }) => {
-    if (name === 'username') {
-      if (value.trim() === '') return 'Username is required.';
-      //....
-    }
-
-    if (name === 'password') {
-      if (value.trim() === '') return 'Password is required.';
-      //....
-    }
+    // Here we have used the computed property, so whatever the value of name, will now become the
+    // the lvalue in object definition
+    const obj = { [name]: value };
+    const schema = {
+      [name]: this.schema[name],
+    };
+    const { error } = Joi.validate(obj, schema);
+    return error ? error.details[0].message : null;
   };
 
   handleChange = ({ currentTarget: input }) => {
@@ -95,8 +108,11 @@ class LoginFrom extends Component {
             error={errors.password}
           />
 
-          <button type='submit' className='btn btn-primary'>
-            Submit
+          <button
+            type='submit'
+            className='btn btn-primary'
+            disabled={!!this.validate()}>
+            Login
           </button>
         </form>
       </div>
